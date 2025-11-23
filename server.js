@@ -164,7 +164,7 @@ const sessionMiddleware = session({
     secret: process.env.LEXBOR_SECRET, // In production, use a secure random string
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } // Set to true if using HTTPS
+    cookie: { secure: true } // Set to true if using HTTPS
 });
 
 app.use(sessionMiddleware);

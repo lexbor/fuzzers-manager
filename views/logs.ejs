@@ -24,53 +24,48 @@
 <%- include('header.ejs') %>
 </head>
 <body>
-    <div class="page">
 <%- include('body.ejs') %>
-        <div class="body">
-            <div class="container">
-                <h1><%= title %></h1>
-                <div class="table-wrapper">
-                    <table class="styled-table">
-                        <tr>
-                            <td style="width: 10%; text-wrap-mode: nowrap;">Name</td>
-                            <td><strong><%= fuzzer.name %></strong></td>
-                        </tr>
-                        <tr>
-                            <td style="width: 10%; text-wrap-mode: nowrap;">Programm</td>
-                            <td><%= fuzzer.path %></td>
-                        </tr>
-                        <tr>
-                            <td style="text-wrap-mode: nowrap;">Log File</td>
-                            <td><%= fuzzer.logPath || 'Not started yet' %></td>
-                        </tr>
-                        <tr>
-                            <td style="text-wrap-mode: nowrap;">Crash directory</td>
-                            <td><%= fuzzer.crashDir || '-' %></td>
-                        </tr>
-                        <tr>
-                            <td style="text-wrap-mode: nowrap;">Corpus directory</td>
-                            <td><%= fuzzer.corpusDir || '-' %></td>
-                        </tr>
-                        <tr>
-                            <td style="text-wrap-mode: nowrap;">Input keywords</td>
-                            <td><%= fuzzer.dict || '-' %></td>
-                        </tr>
-                        <tr>
-                            <td style="text-wrap-mode: nowrap;">Start ARGS</td>
-                            <td><%= fuzzer.args || '-' %></td>
-                        </tr>
-                        <tr>
-                            <td style="text-wrap-mode: nowrap;">Start Time</td>
-                            <td><%= fuzzer.startTime || 'Not started yet' %></td>
-                        </tr>
-                    </table>
-                </div>
-                <div id="logs"></div>
+                    <h1><%= title %></h1>
+                    <div class="table-wrapper">
+                        <table class="styled-table">
+                            <tr>
+                                <td style="width: 10%; text-wrap-mode: nowrap;">Name</td>
+                                <td><strong><%= fuzzer.name %></strong></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 10%; text-wrap-mode: nowrap;">Programm</td>
+                                <td><%= fuzzer.path %></td>
+                            </tr>
+                            <tr>
+                                <td style="text-wrap-mode: nowrap;">Log File</td>
+                                <td><%= fuzzer.logPath || 'Not started yet' %></td>
+                            </tr>
+                            <tr>
+                                <td style="text-wrap-mode: nowrap;">Crash directory</td>
+                                <td><%= fuzzer.crashDir || '-' %></td>
+                            </tr>
+                            <tr>
+                                <td style="text-wrap-mode: nowrap;">Corpus directory</td>
+                                <td><%= fuzzer.corpusDir || '-' %></td>
+                            </tr>
+                            <tr>
+                                <td style="text-wrap-mode: nowrap;">Input keywords</td>
+                                <td><%= fuzzer.dict || '-' %></td>
+                            </tr>
+                            <tr>
+                                <td style="text-wrap-mode: nowrap;">Start ARGS</td>
+                                <td><%= fuzzer.args || '-' %></td>
+                            </tr>
+                            <tr>
+                                <td style="text-wrap-mode: nowrap;">Start Time</td>
+                                <td><%= fuzzer.startTime || 'Not started yet' %></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="logs"></div>
 
-                <a href="/fuzzers">Back to Fuzzers List</a>
-            </div>
-        </div>
-    </div>
+                    <a href="/fuzzers">Back to Fuzzers List</a>
+<%- include('body-end.ejs') %>
 
     <script>
         const socket = io();

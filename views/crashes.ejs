@@ -16,84 +16,79 @@
 <%- include('header.ejs') %>
 </head>
 <body>
-    <div class="page">
 <%- include('body.ejs') %>
-        <div class="body">
-            <div class="container">
-                <h1><%= title %></h1>
-                <div class="table-wrapper">
-                    <table class="styled-table">
-                        <tr>
-                            <td style="width: 10%; text-wrap-mode: nowrap;">Name</td>
-                            <td><strong><%= fuzzer.name %></strong></td>
-                        </tr>
-                        <tr>
-                            <td style="width: 10%; text-wrap-mode: nowrap;">Programm</td>
-                            <td><%= fuzzer.path %></td>
-                        </tr>
-                        <tr>
-                            <td style="text-wrap-mode: nowrap;">Log File</td>
-                            <td><%= fuzzer.logPath || 'Not started yet' %></td>
-                        </tr>
-                        <tr>
-                            <td style="text-wrap-mode: nowrap;">Crash directory</td>
-                            <td><%= fuzzer.crashDir || '-' %></td>
-                        </tr>
-                        <tr>
-                            <td style="text-wrap-mode: nowrap;">Corpus directory</td>
-                            <td><%= fuzzer.corpusDir || '-' %></td>
-                        </tr>
-                        <tr>
-                            <td style="text-wrap-mode: nowrap;">Input keywords</td>
-                            <td><%= fuzzer.dict || '-' %></td>
-                        </tr>
-                        <tr>
-                            <td style="text-wrap-mode: nowrap;">Start ARGS</td>
-                            <td><%= fuzzer.args || '-' %></td>
-                        </tr>
-                        <tr>
-                            <td style="text-wrap-mode: nowrap;">Start Time</td>
-                            <td><%= fuzzer.startTime || 'Not started yet' %></td>
-                        </tr>
-                    </table>
-                </div>
-
-                <div class="table-wrapper" style="margin: 1em 0;">
-                    <table class="styled-table">
-                        <thead>
+                    <h1><%= title %></h1>
+                    <div class="table-wrapper">
+                        <table class="styled-table">
                             <tr>
-                                <th style="width: 75%; text-wrap-mode: nowrap;">Filename</th>
-                                <th style="width: 5%;">Size</th>
-                                <th style="width: 5%;">Date</th>
-                                <th style="width: 15%;">Actions</th>
+                                <td style="width: 10%; text-wrap-mode: nowrap;">Name</td>
+                                <td><strong><%= fuzzer.name %></strong></td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <% crashes.forEach(crash => { %>
-                                <tr>
-                                    <td><%= crash.name %></td>
-                                    <td style="text-wrap-mode: nowrap;"><%= crash.size %></td>
-                                    <td style="text-wrap-mode: nowrap;"><%= crash.date %></td>
-                                    <td style="text-wrap-mode: nowrap;">
-                                        <a href="/fuzzers/crashes/<%= fuzzer.id %>/download/<%= crash.name %>" class="btn-primary">Download</a>
-                                        <form action="/fuzzers/crashes/<%= fuzzer.id %>/delete/<%= crash.name %>" method="POST" style="display:inline; margin-left: 5px;">
-                                            <button type="submit" class="btn-danger" onclick="return confirm('Are you sure you want to delete this crash file?')">Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            <% }); %>
-                            <% if (crashes.length === 0) { %>
-                                <tr>
-                                    <td colspan="4" style="text-align: center;">No crash files found.</td>
-                                </tr>
-                            <% } %>
-                        </tbody>
-                    </table>
-                </div>
+                            <tr>
+                                <td style="width: 10%; text-wrap-mode: nowrap;">Programm</td>
+                                <td><%= fuzzer.path %></td>
+                            </tr>
+                            <tr>
+                                <td style="text-wrap-mode: nowrap;">Log File</td>
+                                <td><%= fuzzer.logPath || 'Not started yet' %></td>
+                            </tr>
+                            <tr>
+                                <td style="text-wrap-mode: nowrap;">Crash directory</td>
+                                <td><%= fuzzer.crashDir || '-' %></td>
+                            </tr>
+                            <tr>
+                                <td style="text-wrap-mode: nowrap;">Corpus directory</td>
+                                <td><%= fuzzer.corpusDir || '-' %></td>
+                            </tr>
+                            <tr>
+                                <td style="text-wrap-mode: nowrap;">Input keywords</td>
+                                <td><%= fuzzer.dict || '-' %></td>
+                            </tr>
+                            <tr>
+                                <td style="text-wrap-mode: nowrap;">Start ARGS</td>
+                                <td><%= fuzzer.args || '-' %></td>
+                            </tr>
+                            <tr>
+                                <td style="text-wrap-mode: nowrap;">Start Time</td>
+                                <td><%= fuzzer.startTime || 'Not started yet' %></td>
+                            </tr>
+                        </table>
+                    </div>
 
-                <a href="/fuzzers">Back to Fuzzers List</a>
-            </div>
-        </div>
-    </div>
+                    <div class="table-wrapper" style="margin: 1em 0;">
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 75%; text-wrap-mode: nowrap;">Filename</th>
+                                    <th style="width: 5%;">Size</th>
+                                    <th style="width: 5%;">Date</th>
+                                    <th style="width: 15%;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% crashes.forEach(crash => { %>
+                                    <tr>
+                                        <td><%= crash.name %></td>
+                                        <td style="text-wrap-mode: nowrap;"><%= crash.size %></td>
+                                        <td style="text-wrap-mode: nowrap;"><%= crash.date %></td>
+                                        <td style="text-wrap-mode: nowrap;">
+                                            <a href="/fuzzers/crashes/<%= fuzzer.id %>/download/<%= crash.name %>" class="btn-primary">Download</a>
+                                            <form action="/fuzzers/crashes/<%= fuzzer.id %>/delete/<%= crash.name %>" method="POST" style="display:inline; margin-left: 5px;">
+                                                <button type="submit" class="btn-danger" onclick="return confirm('Are you sure you want to delete this crash file?')">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                                <% if (crashes.length === 0) { %>
+                                    <tr>
+                                        <td colspan="4" style="text-align: center;">No crash files found.</td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <a href="/fuzzers">Back to Fuzzers List</a>
+<%- include('body-end.ejs') %>
 </body>
 </html>

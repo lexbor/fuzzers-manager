@@ -9,134 +9,129 @@
 <%- include('header.ejs') %>
 </head>
 <body>
-    <div class="page">
 <%- include('body.ejs') %>
-    <div class="body">
-        <div class="container">
-        <p style="text-align: right; margin-bottom: -40px;">
-        <% if (is_admin === true) { %>
-            <a href="/logout?cb=<%= encodeURIComponent(originalUrl) %>">logout</a>
-        <% } else { %>
-            <a href="/login?cb=<%= encodeURIComponent(originalUrl) %>">login</a>
-        <% } %>
-        </p>
-        <h1>Fuzzers Manager</h1>
-
-        <% if (is_admin === true) { %>
-        <!-- Add New Fuzzer Form -->
-        <div style="margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
-            <h3>Add New Fuzzer</h3>
-            <form action="/fuzzers/add" method="POST">
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input class="color-white" type="text" id="name" name="name" required placeholder="e.g., My Fuzzer 1">
-                </div>
-                <div class="form-group">
-                    <label for="path">Path to Executable:</label>
-                    <input class="color-white" type="text" id="path" name="path" required placeholder="/path/to/fuzzer_executable">
-                </div>
-                <div class="form-group">
-                    <label for="dict">Input keywords (-dict) (optional):</label>
-                    <input class="color-white" type="text" id="dict" name="dict" placeholder="/path/to/dict">
-                </div>
-                <div class="form-group">
-                    <label for="args">Arguments (optional):</label>
-                    <input class="color-white" type="text" id="args" name="args" placeholder="-jobs=2 -workers=3" value="-max_len=16384 -timeout=30 -rss_limit_mb=2048">
-                </div>
-                <div class="form-group">
-                    <label for="email">Notification Email (optional):</label>
-                    <input class="color-white" type="email" id="email" name="email" placeholder="alert@example.com">
-                </div>
-                <button type="submit">Add Fuzzer</button>
-            </form>
-        </div>
-        <% } %>
-
-        <!-- System Stats -->
-        <h3>System Status</h3>
-        <div style="margin-bottom: 20px; padding: 15px; background-color: #f8f9fa; border: 1px solid #ddd; border-radius: 5px; text-align: left;">
-            <b>Cores</b>: <span id="sys-cores">-</span> | 
-            <b>Memory</b>: <span id="sys-memory">-</span> <b>MB</b> | 
-            <b>Free Memory</b>: <span id="sys-memory-free">-</span> <b>MB</b> | 
-            <b>Load Avg (1m)</b>: <span id="sys-load">-</span>%
-        </div>
-
-        <!-- List of Fuzzers -->
-        <h3>Fuzzer List</h3>
-        <div class="table-wrapper">
-        <table class="styled-table">
-            <thead>
-                <tr>
-                    <th style="text-wrap-mode: nowrap;">Name</th>
-                    <th>Path</th>
-                    <th>Status</th>
-                    <th>Duration</th>
-                    <th>CPU</th>
-                    <th>Memory</th>
-                    <th>Crashes</th>
-                <% if (is_admin === true) { %>
-                    <th>Actions</th>
-                <% } %>
-                </tr>
-            </thead>
-            <tbody>
-                <% fuzzers.forEach(fuzzer => { %>
-                    <tr id="fuzzer-row-<%= fuzzer.id %>">
-                        <td style="text-wrap-mode: nowrap;">
-                            <a href="/fuzzers/logs/<%= fuzzer.id %>">
-                            <%= fuzzer.name %>
-                            </a>
-                        </td>
-                        <td><%= fuzzer.path %></td>
-                        <td class="center" id="status-<%= fuzzer.id %>">
-                            <span class="<%= fuzzer.pid ? 'status-running' : 'status-stopped' %>">
-                                <%= fuzzer.pid ? 'Running' : 'Stopped' %>
-                            </span>
-                            <span class='fuzzer-pid'>
-                            <% if (is_admin === true && fuzzer.pid) { %>
-                                <%= ' (' + fuzzer.pid + ')' %>
-                            <% } %>
-                            </span>
-                        </td>
-                        <td id="duration-<%= fuzzer.id %>" class="center"><%= fuzzer.duration || '-' %></td>
-                        <td id="cpu-<%= fuzzer.id %>" class="center">-</td>
-                        <td id="memory-<%= fuzzer.id %>" class="center">-</td>
-                        <td id="crashes-<%= fuzzer.id %>" class="center">
-                            <% if (is_admin === true) { %>
-                                <a href="/fuzzers/crashes/<%= fuzzer.id %>"><%= fuzzer.crashCount || 0 %></a>
-                            <% } else { %>
-                                <a href="/login?cb=<%= encodeURIComponent(originalUrl) %>">login</a>
-                            <% } %>
-                        </td>
+                    <p style="text-align: right; margin-bottom: -40px;">
                     <% if (is_admin === true) { %>
-                        <td>
-                            <% if (fuzzer.pid) { %>
-                                <form action="/fuzzers/stop/<%= fuzzer.id %>" method="POST" style="display:inline;">
-                                    <button type="submit" class="btn-danger">Stop</button>
-                                </form>
-                            <% } else { %>
-                                <form action="/fuzzers/start/<%= fuzzer.id %>" method="POST" style="display:inline;">
-                                    <button type="submit" class="btn-success">Start</button>
-                                </form>
-                            <% } %>
-                            <form action="/fuzzers/delete/<%= fuzzer.id %>" method="POST" style="display:inline;">
-                                <button type="submit" class="btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
-                            </form>
-                        </td>
+                        <a href="/logout?cb=<%= encodeURIComponent(originalUrl) %>">logout</a>
+                    <% } else { %>
+                        <a href="/login?cb=<%= encodeURIComponent(originalUrl) %>">login</a>
                     <% } %>
-                    </tr>
-                <% }); %>
-                <% if (fuzzers.length === 0) { %>
-                    <tr>
-                        <td colspan="5" style="text-align: center;">No fuzzers added yet.</td>
-                    </tr>
-                <% } %>
-            </tbody>
-        </table>
-        </div>
-        </div>
-    </div>
-</div>
+                    </p>
+                    <h1>Fuzzers Manager</h1>
+
+                    <% if (is_admin === true) { %>
+                    <!-- Add New Fuzzer Form -->
+                    <div style="margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
+                        <h3>Add New Fuzzer</h3>
+                        <form action="/fuzzers/add" method="POST">
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input class="color-white" type="text" id="name" name="name" required placeholder="e.g., My Fuzzer 1">
+                            </div>
+                            <div class="form-group">
+                                <label for="path">Path to Executable:</label>
+                                <input class="color-white" type="text" id="path" name="path" required placeholder="/path/to/fuzzer_executable">
+                            </div>
+                            <div class="form-group">
+                                <label for="dict">Input keywords (-dict) (optional):</label>
+                                <input class="color-white" type="text" id="dict" name="dict" placeholder="/path/to/dict">
+                            </div>
+                            <div class="form-group">
+                                <label for="args">Arguments (optional):</label>
+                                <input class="color-white" type="text" id="args" name="args" placeholder="-jobs=2 -workers=3" value="-max_len=16384 -timeout=30 -rss_limit_mb=2048">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Notification Email (optional):</label>
+                                <input class="color-white" type="email" id="email" name="email" placeholder="alert@example.com">
+                            </div>
+                            <button type="submit">Add Fuzzer</button>
+                        </form>
+                    </div>
+                    <% } %>
+
+                    <!-- System Stats -->
+                    <h3>System Status</h3>
+                    <div style="margin-bottom: 20px; padding: 15px; background-color: #f8f9fa; border: 1px solid #ddd; border-radius: 5px; text-align: left;">
+                        <b>Cores</b>: <span id="sys-cores">-</span> | 
+                        <b>Memory</b>: <span id="sys-memory">-</span> <b>MB</b> | 
+                        <b>Free Memory</b>: <span id="sys-memory-free">-</span> <b>MB</b> | 
+                        <b>Load Avg (1m)</b>: <span id="sys-load">-</span>%
+                    </div>
+
+                    <!-- List of Fuzzers -->
+                    <h3>Fuzzer List</h3>
+                    <div class="table-wrapper">
+                        <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th style="text-wrap-mode: nowrap;">Name</th>
+                                <th>Path</th>
+                                <th>Status</th>
+                                <th>Duration</th>
+                                <th>CPU</th>
+                                <th>Memory</th>
+                                <th>Crashes</th>
+                            <% if (is_admin === true) { %>
+                                <th>Actions</th>
+                            <% } %>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% fuzzers.forEach(fuzzer => { %>
+                                <tr id="fuzzer-row-<%= fuzzer.id %>">
+                                    <td style="text-wrap-mode: nowrap;">
+                                        <a href="/fuzzers/logs/<%= fuzzer.id %>">
+                                        <%= fuzzer.name %>
+                                        </a>
+                                    </td>
+                                    <td><%= fuzzer.path %></td>
+                                    <td class="center" id="status-<%= fuzzer.id %>">
+                                        <span class="<%= fuzzer.pid ? 'status-running' : 'status-stopped' %>">
+                                            <%= fuzzer.pid ? 'Running' : 'Stopped' %>
+                                        </span>
+                                        <span class='fuzzer-pid'>
+                                        <% if (is_admin === true && fuzzer.pid) { %>
+                                            <%= ' (' + fuzzer.pid + ')' %>
+                                        <% } %>
+                                        </span>
+                                    </td>
+                                    <td id="duration-<%= fuzzer.id %>" class="center"><%= fuzzer.duration || '-' %></td>
+                                    <td id="cpu-<%= fuzzer.id %>" class="center">-</td>
+                                    <td id="memory-<%= fuzzer.id %>" class="center">-</td>
+                                    <td id="crashes-<%= fuzzer.id %>" class="center">
+                                        <% if (is_admin === true) { %>
+                                            <a href="/fuzzers/crashes/<%= fuzzer.id %>"><%= fuzzer.crashCount || 0 %></a>
+                                        <% } else { %>
+                                            <a href="/login?cb=<%= encodeURIComponent(originalUrl) %>">login</a>
+                                        <% } %>
+                                    </td>
+                                <% if (is_admin === true) { %>
+                                    <td>
+                                        <% if (fuzzer.pid) { %>
+                                            <form action="/fuzzers/stop/<%= fuzzer.id %>" method="POST" style="display:inline;">
+                                                <button type="submit" class="btn-danger">Stop</button>
+                                            </form>
+                                        <% } else { %>
+                                            <form action="/fuzzers/start/<%= fuzzer.id %>" method="POST" style="display:inline;">
+                                                <button type="submit" class="btn-success">Start</button>
+                                            </form>
+                                        <% } %>
+                                        <form action="/fuzzers/delete/<%= fuzzer.id %>" method="POST" style="display:inline;">
+                                            <button type="submit" class="btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                                        </form>
+                                    </td>
+                                <% } %>
+                                </tr>
+                            <% }); %>
+                            <% if (fuzzers.length === 0) { %>
+                                <tr>
+                                    <td colspan="5" style="text-align: center;">No fuzzers added yet.</td>
+                                </tr>
+                            <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+<%- include('body-end.ejs') %>
     <script>
         const socket = io();
 

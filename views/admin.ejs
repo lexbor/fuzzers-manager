@@ -13,22 +13,17 @@
 <%- include('header.ejs') %>
 </head>
 <body>
-    <div class="page">
 <%- include('body.ejs') %>
-        <div class="body">
-            <div class="container">
-                <h1><%= title %></h1>
-                <p>Welcome, <%= user %>!</p>
-                <p>This is a protected area only accessible after login.</p>
-                
-                <div>
-                    <a href="/">Home</a>
-                    <a href="/fuzzers">Manage Fuzzers</a>
-                </div>
+                    <h1><%= title %></h1>
+                    <p>Welcome, <%= user %>!</p>
+                    <p>This is a protected area only accessible after login.</p>
+                    
+                    <div>
+                        <a href="/">Home</a>
+                        <a href="/fuzzers">Manage Fuzzers</a>
+                    </div>
 
-                <a href="/logout" class="logout-btn">Logout</a>
-            </div>
-        </div>
-    </div>
+                    <a href="/logout" class="logout-btn">Logout</a>
+<%- include('body-end.ejs') %>
 </body>
 </html>

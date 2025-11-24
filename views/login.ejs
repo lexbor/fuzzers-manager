@@ -15,30 +15,25 @@
 <%- include('header.ejs') %>
 </head>
 <body>
-    <div class="page">
 <%- include('body.ejs') %>
-        <div class="body">
-            <div class="container">
-                <h1><%= title %></h1>
-                <div style="text-align: center;">
-                    <form action="/login?cb=<%= encodeURIComponent(cb) %>" method="POST">
-                        <% if (error) { %>
-                            <div class="error"><%= error %></div>
-                        <% } %>
-                        <div>
-                            <label for="username">Username:</label>
-                            <input type="text" id="username" name="username" required>
-                        </div>
-                        <div>
-                            <label for="password">Password:</label>
-                            <input type="password" id="password" name="password" required>
-                        </div>
-                        <button type="submit">Login</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+                    <h1><%= title %></h1>
+                    <div style="text-align: center;">
+                        <form action="/login?cb=<%= encodeURIComponent(cb) %>" method="POST">
+                            <% if (error) { %>
+                                <div class="error"><%= error %></div>
+                            <% } %>
+                            <div>
+                                <label for="username">Username:</label>
+                                <input type="text" id="username" name="username" required>
+                            </div>
+                            <div>
+                                <label for="password">Password:</label>
+                                <input type="password" id="password" name="password" required>
+                            </div>
+                            <button type="submit">Login</button>
+                        </form>
+                    </div>
+<%- include('body-end.ejs') %>
 <%- include('footer.ejs') %>
 </body>
 </html>

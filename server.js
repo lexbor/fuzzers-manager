@@ -328,6 +328,11 @@ app.post('/fuzzers/start/:id', requireAuth, (req, res) => {
                 args.push(...parts);
             }
 
+            // Ensure crash directory exists
+            if (!fs.existsSync(crashDir)) {
+                fs.mkdirSync(crashDir, { recursive: true });
+            }
+
             // Ensure log directory exists
             if (!fs.existsSync(logDir)) {
                 fs.mkdirSync(logDir, { recursive: true });
